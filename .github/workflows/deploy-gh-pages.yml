@@ -39,6 +39,9 @@ jobs:
         run: yarn install --frozen-lockfile
 
       - name: Build my App
+        env:
+          NOTION_TOKEN: ${{ secrets.NOTION_TOKEN }}
+          NOTION_DATABASE_ID: ${{ secrets.NOTION_DATABASE_ID }}
         run: yarn build && touch ./out/.nojekyll
 
       - name: Upload artifact
