@@ -1,9 +1,10 @@
 {
-  "name": "@deploy-trigger",
+  "name": "deploy-trigger",
   "version": "0.0.1",
   "main": "index.js",
   "license": "MIT",
   "dependencies": {
+    "aws-sdk": "^2.1692.0",
     "axios": "^1.7.9"
   }
 }
