@@ -20,9 +20,7 @@ async function getCountryCode() {
 export default async function Page() {
   const posts = await getPosts();
   const pages = await Promise.all(
-    posts.map(async (post) => await getPageFromSlug(
-      post.properties?.Slug?.rich_text[0].text.content,
-    )),
+    posts.map((post) => getPageFromSlug(post.properties?.Slug?.rich_text[0].text.content)),
   );
   const icons = pages.map((page) => page.icon?.emoji);
   const countryCode = await getCountryCode();
