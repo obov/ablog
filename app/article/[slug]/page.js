@@ -13,7 +13,7 @@ import styles from '../../../styles/post.module.css';
 export async function generateStaticParams() {
   const database = await getDatabase();
   return database?.map((page) => {
-    const slug = page.properties.Slug?.formula?.string;
+    const slug = page.properties.Slug?.rich_text[0].text.content;
     return ({ id: page.id, slug });
   });
 }
@@ -54,7 +54,7 @@ export default async function Page({ params }) {
 //   const database = await getDatabase(databaseId);
 //   return {
 //     paths: database.map((page) => {
-//       const slug = page.properties.Slug?.formula?.string;
+//       const slug = page.properties.Slug?.rich_text[0].text.content;
 //       return ({ params: { id: page.id, slug } });
 //     }),
 //     fallback: true,
