@@ -22,7 +22,7 @@ export async function generateMetadata({ params }) {
   const emojiSvg = `
     <svg xmlns="http://www.w3.org/2000/svg" width="64" height="64">
       <text x="50%" y="50%" font-size="48" text-anchor="middle" dominant-baseline="central">
-        ${page.icon.emoji}
+        ${page.icon?.emoji}
       </text>
     </svg>
   `;
@@ -48,7 +48,7 @@ export default async function Page({ params }) {
     <div>
       <article className={styles.container}>
         <h1 className={styles.name}>
-          <Text title={page.properties.Title?.title} icon={page.icon.emoji} />
+          <Text title={page.properties.Title?.title} icon={page.icon?.emoji} />
         </h1>
         <section>
           {blocks.map((block) => (
