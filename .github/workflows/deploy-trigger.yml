@@ -20,7 +20,15 @@ jobs:
       - name: Checkout Code
         uses: actions/checkout@v3
 
-      # 2. Node.js 설치 및 의존성 설치
+      # 2. Set up AWS Credentials
+      - name: Configure AWS Credentials
+        uses: aws-actions/configure-aws-credentials@v2
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: ap-northeast-2
+
+      # 3. Node.js 설치 및 의존성 설치
       - name: Set up Node.js
         uses: actions/setup-node@v3
         with:
@@ -30,17 +38,14 @@ jobs:
         working-directory: ./@deploy-trigger
         run: npm install
 
-      # 3. Lambda 코드 패키징
+      # 4. Lambda 코드 패키징
       - name: Package Lambda Function
         working-directory: ./@deploy-trigger
         run: zip -r ../function.zip .
 
-      # 4. AWS Lambda로 배포
+      # 5. Deploy to AWS Lambda
       - name: Deploy to AWS Lambda
-        uses: aws-actions/aws-lambda-deploy@v1
-        with:
-          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          aws-region: ap-northeast-2 # Lambda가 배포될 AWS 리전
-          function-name: BlogContentDeployTrigger # 배포할 Lambda 함수 이름
-          zip-file: function.zip
+        run: |
+          aws lambda update-function-code \
+            --function-name DeployTrigger \
+            --zip-file fileb://function.zip
