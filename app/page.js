@@ -11,8 +11,15 @@ async function getPosts() {
   return database;
 }
 
+async function getCountryCode() {
+  const response = await fetch('https://ipapi.co/json/');
+  const data = await response.json();
+  return data.country_code; // 예: "KR", "US"
+}
+
 export default async function Page() {
   const posts = await getPosts();
+  const countryCode = await getCountryCode();
   return (
     <div>
       <main className={styles.container}>
@@ -75,7 +82,7 @@ export default async function Page() {
         <ol className={styles.posts}>
           {posts.map((post) => {
             const date = new Date(post.last_edited_time).toLocaleString(
-              'en-US',
+              countryCode === 'KR' ? 'ko-KR' : 'en-US',
               {
                 month: 'short',
                 day: '2-digit',
