@@ -41,7 +41,7 @@ jobs:
       # 4. Lambda 코드 패키징
       - name: Package Lambda Function
         working-directory: ./@deploy-trigger
-        run: zip -r ../function.zip .
+        run: zip -r ../function.zip ./*
 
       # 5. Deploy to AWS Lambda
       - name: Deploy to AWS Lambda
