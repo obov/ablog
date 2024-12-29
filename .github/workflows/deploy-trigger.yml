@@ -1,0 +1,46 @@
+name: Deploy Trigger
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - master # master 브랜치에 푸시될 때 실행
+    paths:
+      - "@deploy-trigger/**"
+
+permissions:
+  contents: read
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      # 1. 코드 체크아웃
+      - name: Checkout Code
+        uses: actions/checkout@v3
+
+      # 2. Node.js 설치 및 의존성 설치
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: "18"
+
+      - name: Install dependencies
+        working-directory: ./@deploy-trigger
+        run: npm install
+
+      # 3. Lambda 코드 패키징
+      - name: Package Lambda Function
+        working-directory: ./@deploy-trigger
+        run: zip -r ../function.zip .
+
+      # 4. AWS Lambda로 배포
+      - name: Deploy to AWS Lambda
+        uses: aws-actions/aws-lambda-deploy@v1
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: ap-northeast-2 # Lambda가 배포될 AWS 리전
+          function-name: BlogContentDeployTrigger # 배포할 Lambda 함수 이름
+          zip-file: function.zip
