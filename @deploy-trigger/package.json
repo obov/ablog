@@ -1,5 +1,5 @@
 {
-  "name": "deploy-trigger",
+  "name": "@deploy-trigger",
   "version": "0.0.1",
   "main": "index.js",
   "license": "MIT",
