@@ -1,6 +1,6 @@
 import styles from '../styles/post.module.css';
 
-export default function Text({ title }) {
+export default function Text({ title, icon }) {
   if (!title) {
     return null;
   }
@@ -23,7 +23,7 @@ export default function Text({ title }) {
         style={color !== 'default' ? { color } : {}}
         key={text.content}
       >
-        {text.link ? <a href={text.link.url}>{text.content}</a> : text.content}
+        {text.link ? <a href={text.link.url}>{`${icon ? `${icon} ` : ''}${text.content}`}</a> : `${icon ? `${icon} ` : ''}${text.content}`}
       </span>
     );
   });

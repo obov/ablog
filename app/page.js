@@ -1,5 +1,5 @@
 import Link from 'next/link';
-import { getDatabase } from '../lib/notion';
+import { getDatabase, getPageFromSlug } from '../lib/notion';
 import Text from '../components/text';
 import styles from './index.module.css';
 
@@ -19,6 +19,12 @@ async function getCountryCode() {
 
 export default async function Page() {
   const posts = await getPosts();
+  const pages = await Promise.all(
+    posts.map(async (post) => await getPageFromSlug(
+      post.properties?.Slug?.rich_text[0].text.content,
+    )),
+  );
+  const icons = pages.map((page) => page.icon?.emoji);
   const countryCode = await getCountryCode();
   return (
     <div>
@@ -80,7 +86,7 @@ export default async function Page() {
 
         <h2 className={styles.heading}>All Posts</h2>
         <ol className={styles.posts}>
-          {posts.map((post) => {
+          {posts.map((post, index) => {
             const date = new Date(post.last_edited_time).toLocaleString(
               countryCode === 'KR' ? 'ko-KR' : 'en-US',
               {
@@ -90,11 +96,12 @@ export default async function Page() {
               },
             );
             const slug = post.properties?.Slug?.rich_text[0].text.content;
+
             return (
               <li key={post.id} className={styles.post}>
                 <h3 className={styles.postTitle}>
                   <Link href={`/article/${slug}`}>
-                    <Text title={post.properties?.Title?.title} />
+                    <Text title={post.properties?.Title?.title} icon={icons[index]} />
                   </Link>
                 </h3>
 
