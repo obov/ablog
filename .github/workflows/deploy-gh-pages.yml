@@ -6,6 +6,9 @@ name: GitHub Pages deploy
 on:
   #   push:
   #     branches: [main]
+  #   paths:
+  #     - "page-maker/**"
+
   workflow_dispatch:
   schedule:
     - cron: "*/5 * * * *"
@@ -27,6 +30,7 @@ jobs:
     steps:
       - name: Checkout 🛎️
         uses: actions/checkout@v3
+
       - name: Use Node.js 20.x
         uses: actions/setup-node@v3
         with:
@@ -38,9 +42,11 @@ jobs:
           key: ${{ runner.os }}-modules-${{ hashFiles('**/yarn.lock') }}
 
       - name: Installing my packages
+        working-directory: ./page-maker
         run: yarn install --frozen-lockfile
 
       - name: Build my App
+        working-directory: ./page-maker
         env:
           NOTION_TOKEN: ${{ secrets.NOTION_TOKEN }}
           NOTION_DATABASE_ID: ${{ secrets.NOTION_DATABASE_ID }}
@@ -49,7 +55,7 @@ jobs:
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
-          path: out
+          path: ./page-maker/out
 
   # Deployment job
   deploy:
