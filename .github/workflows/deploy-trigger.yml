@@ -4,7 +4,7 @@ on:
   workflow_dispatch:
   push:
     branches:
-      - master # master 브랜치에 푸시될 때 실행
+      - main # master 브랜치에 푸시될 때 실행
     paths:
       - "@deploy-trigger/**"
 
