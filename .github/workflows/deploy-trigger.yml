@@ -6,7 +6,7 @@ on:
     branches:
       - main # master 브랜치에 푸시될 때 실행
     paths:
-      - "@deploy-trigger/**"
+      - "deploy-trigger/**"
 
 permissions:
   contents: read
@@ -35,12 +35,12 @@ jobs:
           node-version: "18"
 
       - name: Install dependencies
-        working-directory: ./@deploy-trigger
+        working-directory: ./deploy-trigger
         run: npm install
 
       # 4. Lambda 코드 패키징
       - name: Package Lambda Function
-        working-directory: ./@deploy-trigger
+        working-directory: ./deploy-trigger
         run: zip -r ../function.zip ./*
 
       # 5. Deploy to AWS Lambda
