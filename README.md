@@ -8,4 +8,4 @@ https://obov.github.io/ablog/
 
 ## 블로그 소스 주소
 
-https://www.notion.so/Blog-CMS-16b747fc0bde80188663c911c8d1da6d
+[https://www.notion.so/Blog-CMS-16b747fc0bde80188663c911c8d1da6d](https://zany-pyramid-203.notion.site/Blog-CMS-16b747fc0bde80188663c911c8d1da6d)
