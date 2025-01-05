@@ -48,6 +48,7 @@ jobs:
         env:
           NOTION_TOKEN: ${{ secrets.NOTION_TOKEN }}
           NOTION_DATABASE_ID: ${{ secrets.NOTION_DATABASE_ID }}
+          IMAGE_REDIRECT_URL: ${{ secrets.IMAGE_REDIRECT_URL }}
         run: yarn build && touch ./out/.nojekyll
 
       - name: Upload artifact

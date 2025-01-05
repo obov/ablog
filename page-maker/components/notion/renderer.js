@@ -4,7 +4,7 @@ import Link from 'next/link';
 import Text from '../text';
 import styles from '../../styles/post.module.css';
 
-export function renderBlock(block) {
+export function renderBlock(block, slug) {
   const { type, id } = block;
   const value = block[type];
 
@@ -53,7 +53,6 @@ export function renderBlock(block) {
         <div>
           <label htmlFor={id}>
             <input type="checkbox" id={id} defaultChecked={value.checked} />
-            {' '}
             <Text title={value.rich_text} />
           </label>
         </div>
@@ -77,7 +76,10 @@ export function renderBlock(block) {
         </div>
       );
     case 'image': {
-      const src = value.type === 'external' ? value.external.url : value.file.url;
+      const imageRedirectUrl = process.env?.IMAGE_REDIRECT_URL ?? 'IMAGE_REDIRECT_URL';
+      const pathname = value.type === 'external' ? value.external.url : new URL(value.file.url).pathname.split('/')[2];
+      const src =
+        value.type === 'external' ? value.external.url : `${imageRedirectUrl}?slug=${slug}&pathname=${pathname}`;
       const caption = value.caption ? value.caption[0]?.plain_text : '';
       return (
         <figure>
@@ -107,7 +109,6 @@ export function renderBlock(block) {
         <figure>
           <div className={styles.file}>
             📎
-            {' '}
             <Link href={srcFile} passHref>
               {lastElementInArray.split('?')[0]}
             </Link>
@@ -146,19 +147,14 @@ export function renderBlock(block) {
       );
     }
     case 'column_list': {
-      return (
-        <div className={styles.row}>
-          {block.children.map((childBlock) => renderBlock(childBlock))}
-        </div>
-      );
+      const children = block.children.map((childBlock) => renderBlock(childBlock));
+      return <div className={styles.row}>{children}</div>;
     }
     case 'column': {
       return <div>{block.children.map((child) => renderBlock(child))}</div>;
     }
     default:
-      return `❌ Unsupported block (${
-        type === 'unsupported' ? 'unsupported by Notion API' : type
-      })`;
+      return `❌ Unsupported block (${type === 'unsupported' ? 'unsupported by Notion API' : type})`;
   }
 }
 

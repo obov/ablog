@@ -1,9 +1,7 @@
 import { Fragment } from 'react';
 import Link from 'next/link';
 
-import {
-  getDatabase, getBlocks, getPageFromSlug,
-} from '../../../lib/notion';
+import { getDatabase, getBlocks, getPageFromSlug } from '../../../lib/notion';
 import Text from '../../../components/text';
 import { renderBlock } from '../../../components/notion/renderer';
 import styles from '../../../styles/post.module.css';
@@ -13,7 +11,7 @@ export async function generateStaticParams() {
   const database = await getDatabase();
   return database?.map((page) => {
     const slug = page.properties.Slug?.rich_text[0].text.content;
-    return ({ id: page.id, slug });
+    return { id: page.id, slug };
   });
 }
 
@@ -52,7 +50,7 @@ export default async function Page({ params }) {
         </h1>
         <section>
           {blocks.map((block) => (
-            <Fragment key={block.id}>{renderBlock(block)}</Fragment>
+            <Fragment key={block.id}>{renderBlock(block, params?.slug)}</Fragment>
           ))}
           <Link href="/" className={styles.back}>
             ← Go home
