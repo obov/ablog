@@ -64,14 +64,6 @@ exports.handler = async (event) => {
       new URL(image).pathname.split('/')[2] === event.queryStringParameters?.pathname
   );
 
-  console.log('==========');
-  console.log(images.map((image) => new URL(image).pathname.split('/')[2])[0]);
-  console.log('==========');
-  console.log(event.queryStringParameters);
-  console.log('==========');
-  console.log(event.queryStringParameters?.pathname);
-  console.log('==========');
-
   return {
     statusCode: 302,
     headers: {
@@ -79,5 +71,3 @@ exports.handler = async (event) => {
     },
   };
 };
-
-// https://bmh6chbc23yndckuad6i2gghgi0rxzal.lambda-url.ap-northeast-2.on.aws/?slug=notion_image_has_expire&pathname=9271ac0b-23d3-49fc-a526-aaa3cd98cf74
