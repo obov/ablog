@@ -16,9 +16,7 @@ module.exports = {
       env: {
         node: true,
       },
-      files: [
-        '.eslintrc.{js,cjs}',
-      ],
+      files: ['.eslintrc.{js,cjs}'],
       parserOptions: {
         sourceType: 'script',
       },
@@ -30,9 +28,13 @@ module.exports = {
   },
   rules: {
     'react/jsx-filename-extension': [1, { extensions: ['.js', '.jsx'] }],
-    'react/jsx-props-no-spreading': [1, {
-      custom: 'ignore',
-    }],
+    'react/jsx-props-no-spreading': [
+      1,
+      {
+        custom: 'ignore',
+      },
+    ],
     'react/prop-types': [0],
+    'operator-linebreak': 'off',
   },
 };
