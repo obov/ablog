@@ -4,10 +4,10 @@
 name: GitHub Pages deploy
 
 on:
-  #   push:
-  #     branches: [main]
-  #   paths:
-  #     - "page-maker/**"
+  push:
+    branches: [main]
+    paths:
+      - 'page-maker/**'
 
   workflow_dispatch:
 
